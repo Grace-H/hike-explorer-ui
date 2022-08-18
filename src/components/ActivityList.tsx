@@ -1,7 +1,8 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState, useEffect } from 'react';
 import { Container, Checkbox, Button, TableContainer, Table, TableRow, Paper, TableHead, TableCell, TableBody } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import ActivityForm from './ActivityForm';
+import "../App.css";
 
 export interface Hike {
     hike: string;
@@ -23,13 +24,19 @@ function createHike(hike: string, city: string, state: string, done: boolean, le
 
 export default function ActivityList(): ReactElement {
     const [ hikes, setHikes ] = useState<Array<Hike>>([
-        createHike("Wildwood Trail", "Portland", "OR", false, 34),
-        createHike("McDowell Preserve", "Scottsdale", "AZ", true),
+        // createHike("Wildwood Trail", "Portland", "OR", false, 34),
+        // createHike("McDowell Preserve", "Scottsdale", "AZ", true),
         createHike("Prairie Path", "Wheaton", "IL", false),
         createHike("Multnomah Falls", "Hood River", "OR", true, 3),
         createHike("A very very very looooooooooooooooooong hiiiiiiiiike", "Somewhere very faaaar away", "in some state", false, 1000000000)
     ]);
     const [ formOpen, setFormOpen ] = useState<boolean>(false);
+
+    useEffect(() => {
+        fetch('http://localhost:3050/hikes')
+            .then((response) => response.json())
+            .then((data) => setHikes(data));
+    }, []);
 
     function handleFormOpen(){
         setFormOpen(true);
@@ -76,7 +83,7 @@ export default function ActivityList(): ReactElement {
                 </TableBody>
             </Table>
         </TableContainer>
-        <Button onClick={handleFormOpen} color="primary" variant="contained"><Add />Add Hike</Button>
+        <Button onClick={handleFormOpen} className="button" variant="contained"><Add />Add Hike</Button>
         <ActivityForm onClose={handleSubmitForm} open={formOpen} />
         </Container>
     );

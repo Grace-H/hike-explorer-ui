@@ -2,6 +2,7 @@ import React, { ReactElement, useState, ChangeEvent } from 'react';
 import { Grid, Button, TextField, Checkbox, Autocomplete, Dialog, DialogTitle, Typography, Box } from '@mui/material';
 import { AddBoxRounded } from '@mui/icons-material';
 import { Hike }  from './ActivityList';
+import "../App.css";
 
 export interface ActivityFormProps{
     open: boolean;
